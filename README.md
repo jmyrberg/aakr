@@ -30,7 +30,6 @@ X_nc = aakr.predict(X_obs)
 
 ## References
 
-* [MTM algorithm by Martello and Toth](http://people.sc.fsu.edu/~jburkardt/f77_src/knapsack/knapsack.f) (Fortran)
 * [A modified Auto Associative Kernel Regression method for robust signal reconstruction in nuclear power plant components](https://www.researchgate.net/publication/292538769_A_modified_Auto_Associative_Kernel_Regression_method_for_robust_signal_reconstruction_in_nuclear_power_plant_components)
 
 ---
