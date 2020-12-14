@@ -1,0 +1,60 @@
+language: python
+python:
+- '3.8'
+os:
+- linux
+branches:
+  only:
+  - master
+install:
+- pip install -r requirements.txt -r requirements-dev.txt
+script: pytest -v
+jobs:
+  include:
+  - stage: test
+  - stage: release
+    install: skip
+    script: skip
+    python: '3.8'
+    before_deploy:
+    - export RELEASE_VERSION=$( cat VERSION )
+    - git config --local user.name "jmyrberg"
+    - git config --local user.email "jesse.myrberg@gmail.com"
+    - git tag $RELEASE_VERSION
+    deploy:
+      provider: releases
+      name: Version $RELEASE_VERSION
+      tag_name: "$RELEASE_VERSION"
+      cleanup: false
+      prerelease: true
+      token:
+        secure: 
+      file:
+      - dist/*.tar.gz
+      file_glob: true
+      on:
+        branch: master
+        repo: jmyrberg/mknapsack
+    after_success:
+    - git push --tags
+  - stage: deploy
+    install: skip
+    script: skip
+    python: '3.8'
+    deploy:
+      provider: pypi
+      username: jmyrberg
+      distributions: sdist
+      cleanup: false
+      password:
+        secure: 
+      on:
+        branch: master
+        repo: jmyrberg/aakr
+stages:
+- name: test
+  if: type IN (pull_request, cron, api)
+- name: release
+  if: type IN (push)
+- name: deploy
+  if: type IN (push)
