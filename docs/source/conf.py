@@ -41,13 +41,14 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'finscraper'
+project = 'aakr'
 copyright = '2020, Jesse Myrberg'
 author = 'Jesse Myrberg'
 
 # The full version, including alpha/beta/rc tags
 with open('../../VERSION', 'r') as f:
-    release = f.read().strip()
+    version = f.read().strip()
+    release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -56,10 +57,15 @@ with open('../../VERSION', 'r') as f:
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'm2r',
+    'm2r2',
     'sphinxcontrib.napoleon',
-    'sphinx.ext.autodoc',
     'sphinx_rtd_theme',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.viewcode',
+    'numpydoc'
 ]
 
 # Autodoc settings
@@ -102,13 +108,13 @@ html_theme = 'sphinx_rtd_theme'
 
 html_theme_options = {
     'canonical_url': '',
-    #'analytics_id': 'UA-XXXXXXX-1',  #  Provided by Google in your dashboard
+    # 'analytics_id': 'UA-XXXXXXX-1',  #  Provided by Google in your dashboard
     'logo_only': False,
     'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
-    #'vcs_pageview_mode': '',
-    #'style_nav_header_background': 'white',
+    # 'vcs_pageview_mode': '',
+    # 'style_nav_header_background': 'white',
     # Toc options
     'collapse_navigation': True,
     'sticky_navigation': True,

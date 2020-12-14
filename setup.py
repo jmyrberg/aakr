@@ -17,7 +17,8 @@ setuptools.setup(
     author='Jesse Myrberg',
     author_email='jesse.myrberg@gmail.com',
     url='https://github.com/jmyrberg/aakr',
-    keywords=['aakr', 'auto', 'associative', 'kernel', 'regression', 'anomaly', 'detection'],
+    keywords=['aakr', 'auto', 'associative', 'kernel', 'regression', 'anomaly',
+              'detection'],
     install_requires=[
         'numpy>=1.19.4',
         'pandas>=1.1.5',
@@ -45,10 +46,10 @@ setuptools.setup(
             'pytest-cov'],
         'docs': [
             'sphinx',
-            'sphinx-gallery',
             'sphinx_rtd_theme',
             'numpydoc',
-            'matplotlib'
+            'm2r2',
+            'sphinxcontrib-napoleon'
         ]
     }
 )

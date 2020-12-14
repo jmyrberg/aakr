@@ -1,4 +1,4 @@
-"""Module for models."""
+"""Module for Auto Associative Kernel Regression models."""
 
 
 import numpy as np
@@ -9,15 +9,19 @@ from sklearn.utils.validation import check_array, check_is_fitted
 
 
 class AAKR(TransformerMixin, BaseEstimator):
-    """A template estimator to be used as a reference implementation.
+    """Auto Associative Kernel Regressor.
 
-    For more information regarding how to build your own estimator, read more
-    in the :ref:`User Guide <user_guide>`.
+    Please see the :ref:`Getting started <readme.rst>` documentation for more
+        information.
 
     Parameters
     ----------
-    demo_param : str, default='demo_param'
-        A parameter used for demonstation of how to pass and store paramters.
+    metric : str, default='euclidean'
+        Metric for calculating kernel distances.
+    bw : float, default=1.0
+        Kernel bandwith parameter.
+    n_jobs : int, default=-1
+        The number of jobs to run in parallel.
 
     Examples
     --------
@@ -26,43 +30,74 @@ class AAKR(TransformerMixin, BaseEstimator):
     >>> X = np.arange(100).reshape(50, 2)
     >>> aakr = AAKR()
     >>> aakr.fit(X)
-    AAKR(metric='euclidean', bw=1, n_jobs=None)
+    AAKR(metric='euclidean', bw=1, n_jobs=-1)
     """
-    def __init__(self, metric='euclidean', bw=1, n_jobs=None):
+    def __init__(self, metric='euclidean', bw=1, n_jobs=-1):
         self.metric = metric
         self.bw = bw
         self.n_jobs = n_jobs
 
     def fit(self, X, y=None):
-        """A reference implementation of a fitting function for a transformer.
+        """Fit normal condition examples.
 
         Parameters
         ----------
-        X : array-like, shape (n_samples, n_features)
+        X : array-like of shape (n_samples, n_features)
             Training examples from normal conditions.
         y : None
-            Not needed, exists for compability purposes.
+            Not required, exists only for compability purposes.
 
         Returns
         -------
         self : object
             Returns self.
         """
+        # Validation
         X = check_array(X)
+
+        # Save history
         self.X_ = X
+
         return self
 
-    def predict(self, X, **kwargs):
-        """ A reference implementation of a prediction for a classifier.
+    def partial_fit(self, X, y=None):
+        """Fit more normal condition examples.
 
         Parameters
         ----------
-        X : array-like, shape (n_samples, n_features)
+        X : array-like of shape (n_samples, n_features)
+            Training examples from normal conditions.
+        y : None
+            Not required, exists only for compability purposes.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+        """
+        # Validation
+        X = check_array(X)
+
+        if self.X_.shape[1] != X.shape[1]:
+            raise ValueError('Shape of input is different from what was seen'
+                             'in `fit`')
+
+        # Add new examples
+        self.X_ = np.vstack((self.X_, X))
+
+        return self
+
+    def transform(self, X, **kwargs):
+        """Transform given array into expected values in normal conditions.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
             The input samples.
 
         Returns
         -------
-        X_nc : ndarray, shape (n_samples, n_features)
+        X_nc : ndarray of shape (n_samples, n_features)
             Expected values in normal conditions for each sample and feature.
         """
         # Validation
