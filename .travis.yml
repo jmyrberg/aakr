@@ -27,14 +27,14 @@ jobs:
       tag_name: "$RELEASE_VERSION"
       cleanup: false
       prerelease: true
-      token:
-        secure: 
+      api_key:
+        secure: "7Sexba0rztR+MLSmQu6ed5Abqmy3IiOf6qzetnRtAnk4FUwUtX7TWCI/3UhsCyETTxqgCHTScRaiP5L3+AT0YwFNfz60mquNppOoWRmAWqmq4uyyXHBy9ILUzaafh5bIYhzDKO3uAB3gxznmODrHZLYkGY2ehSvRXpf/paXxkfTtP7jEPALiaJ0Rjs7LnZOnYLM2+vYufqw5nmrZA1Y6S6B6m9GYCLhhv4p9pfPVJd0adnznlAxv64dGsY05DwBdHfO9sJeHbnh4zp741WyvUwhyWB8mR0mfKz9zyVkrY4zLte928Gsmr96WgCyUX1pl1nEUH8jPW8UiYzHcUiVq1gIsRJExA0ofNrfAsoJ0abHwcdwqmtC2LZHQcrAH6bB/BiqDldPPAqO6XjjjGu0N5vlQCHwVpkiH7+PkC/JXhgSYGUDsGWZlfIlDotVVFZv05X7zDcjxnl5VXNseK5k8IWyfjYf128yWh/BeghQ6yS2OVGxQq9kUoQGVFVzRF6mXldsUpm5YtTiyRc57SWxd6SGQ61I6ZjOu5ak5owzG8O9UzXXTK7EQBWUha9uYH0B6bCqJ1eKxym00/iZocPS2S9tMZOE8SDoyYhvJrQgSqE2gq1+THWfh1uW0YTLTi97CnedNK3UhhbKvDb/OrW9y6IgrkXaY8AjGx19PmnMjUMI="
       file:
       - dist/*.tar.gz
       file_glob: true
       on:
         branch: master
-        repo: jmyrberg/mknapsack
+        repo: jmyrberg/aakr
     after_success:
     - git push --tags
   - stage: deploy
@@ -43,11 +43,11 @@ jobs:
     python: '3.8'
     deploy:
       provider: pypi
-      username: jmyrberg
+      username: __token__
       distributions: sdist
       cleanup: false
       password:
-        secure: 
+        secure: "JOVvbI3UOFT+mfMPoz9qB+mhfmQsV91hiTJzWDZj5/FgtetnpFwp3sP8OPivPH+gZ05VoOM0bJVCUPg4jS9cXieIqTIPavUzXnYFuAB0NR4PC/lJ8xYkitGp0X0ioC5grPFaO2FXGfDUPmjp9INODknW9ktYjQCb/g3c3k9QfaVBSGfJVpKNFIyCsW73Bsa4cZAMyEA5Moo5AbPsQKWy+KPU+QEognVtjilHf9qT0umyZO95dO5EMqO/kuXasfndkTyOpxYlL+XJ96QaB+Jb3whVAY1RFncvybyW6btebEyowk6F+QqX+K6ZaCfjt9CUEWPWbd4SFiasIRvrpvnXT4LKKje7LA2AsHZTuyvnKVyj38gpP+zFrpBdvAkj1N+RaqlVzHWYVBy+YSHZ4wVrGP6rlG6RXzoZHEromAZHZ8fn/HKV0OW1fevOJ0gfnW5u8KPCZQ99KL7WnNReLMyPwu3I7f8r2A3xv3HMHk4m7RqHMxykWLDWG2Wj6w2lhorkEK/kxsxxYQa6tOaxNOUArgj+4JI9alaRP60c3EbIoAmtL77TTwM9L+lK+6BW71FxaqmTnQBxG7Xktp1DrxeOU/CQbkLryyVHumcUAPg01ZeVJO2mOLAE9YsbgATNVmDKjlB1BNKd1aysqidYHOajVYIpIiVf1jKU7s0XauJeZjs="
       on:
         branch: master
         repo: jmyrberg/aakr

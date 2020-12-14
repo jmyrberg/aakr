@@ -4,7 +4,7 @@
 import numpy as np
 
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.metrics.pairwise import pairwise_distances, pairwise_kernels
+from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.utils.validation import check_array, check_is_fitted
 
 
