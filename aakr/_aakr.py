@@ -9,19 +9,33 @@ from sklearn.utils.validation import check_array, check_is_fitted
 
 
 class AAKR(TransformerMixin, BaseEstimator):
-    """Auto Associative Kernel Regressor.
-
-    Please see the :ref:`Getting started <readme.rst>` documentation for more
-        information.
+    """Auto Associative Kernel Regression.
 
     Parameters
     ----------
     metric : str, default='euclidean'
-        Metric for calculating kernel distances.
+        Metric for calculating kernel distances, see available metrics from
+        `sklearn.metrics.pairwise_distances <https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise_distances.html>`_.
     bw : float, default=1.0
         Kernel bandwith parameter.
     n_jobs : int, default=-1
         The number of jobs to run in parallel.
+
+    Attributes
+    ----------
+    X_ : ndarray of shape (n_samples, n_features)
+        Historical normal condition examples given as an array.
+
+    References
+    ----------
+    .. [1] Chevalier  R., Provost  D., and Seraoui R., 2009,
+           “Assessment of Statistical and Classification Models For Monitoring
+           EDF’s  Assets”,  Sixth  American  Nuclear  Society  International
+           Topical Meeting on Nuclear Plant Instrumentation.
+    .. [2] Baraldi P., Di Maio F., Turati P., Zio E., 2014,
+           "A modified Auto Associative Kernel Regression method for robust
+           signal reconstruction in nuclear power plant components", European
+           Safety and Reliability Conference ESREL.
     """
     def __init__(self, metric='euclidean', bw=1, n_jobs=-1):
         self.metric = metric

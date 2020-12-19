@@ -28,7 +28,7 @@ def test_aakr(data):
     assert_allclose(X_nc, X[:3])
 
 
-def test_aakr_input_shape_mismatch(data):
+def test_aakr_fit_input_shape_mismatch(data):
     X = data[0]
     aakr = AAKR().fit(X)
     assert aakr.X_.shape[1] == X.shape[1]
@@ -37,4 +37,10 @@ def test_aakr_input_shape_mismatch(data):
         aakr.transform(X[:3, :-1])
 
 
-# TODO: Test partial_fit
+def test_aakr_partial_fit_input_shape_mismatch(data):
+    X = data[0]
+    aakr = AAKR().partial_fit(X)
+    assert aakr.X_.shape[1] == X.shape[1]
+
+    with pytest.raises(ValueError, match='Shape of input is different'):
+        aakr.partial_fit(X[:, :-1])

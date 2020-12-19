@@ -35,6 +35,8 @@ X_obs_nc = aakr.transform(X_obs)
 
 ## References
 
+* [Assessment of Statistical and Classification Models For Monitoring EDF’s  Assets”](https://link.springer.com/chapter/10.1007/978-0-85729-320-6_52)
+
 * [A modified Auto Associative Kernel Regression method for robust signal reconstruction in nuclear power plant components](https://www.researchgate.net/publication/292538769_A_modified_Auto_Associative_Kernel_Regression_method_for_robust_signal_reconstruction_in_nuclear_power_plant_components)
 
 ---
