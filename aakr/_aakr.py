@@ -22,20 +22,12 @@ class AAKR(TransformerMixin, BaseEstimator):
         Kernel bandwith parameter.
     n_jobs : int, default=-1
         The number of jobs to run in parallel.
-
-    Examples
-    --------
-    >>> from aakr import AAKR
-    >>> import numpy as np
-    >>> X = np.arange(100).reshape(50, 2)
-    >>> aakr = AAKR()
-    >>> aakr.fit(X)
-    AAKR(metric='euclidean', bw=1, n_jobs=-1)
     """
     def __init__(self, metric='euclidean', bw=1, n_jobs=-1):
         self.metric = metric
         self.bw = bw
         self.n_jobs = n_jobs
+        # TODO: Implement modified -version
 
     def fit(self, X, y=None):
         """Fit normal condition examples.
@@ -78,12 +70,14 @@ class AAKR(TransformerMixin, BaseEstimator):
         # Validation
         X = check_array(X)
 
-        if self.X_.shape[1] != X.shape[1]:
-            raise ValueError('Shape of input is different from what was seen'
-                             'in `fit`')
-
-        # Add new examples
-        self.X_ = np.vstack((self.X_, X))
+        # Fit
+        if hasattr(self, 'X_'):
+            if self.X_.shape[1] != X.shape[1]:
+                raise ValueError('Shape of input is different from what was '
+                                 'seen in `fit` or `partial_fit`')
+            self.X_ = np.vstack((self.X_, X))
+        else:
+            self.X_ = X
 
         return self
 
@@ -114,6 +108,7 @@ class AAKR(TransformerMixin, BaseEstimator):
                                n_jobs=self.n_jobs, **kwargs)
         k = 1 / np.sqrt(2 * np.pi * self.bw ** 2)
         w = k * np.exp(-D ** 2 / (2 * self.bw ** 2))
-        X_nc = w.T.dot(self.X_) / w.sum(0)[:, None]
+        w_sum = w.sum(0)
+        X_nc = w.T.dot(self.X_) / np.where(w_sum == 0, 1, w_sum)[:, None]
 
         return X_nc

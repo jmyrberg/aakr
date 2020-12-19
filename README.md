@@ -1,8 +1,13 @@
-# aakr
+# aakr (Auto Associative Kernel Regression)
 
-[![Build Status](https://travis-ci.com/jmyrberg/aakr.svg?branch=master)](https://travis-ci.com/jmyrberg/aakr)
+[![Build Status](https://travis-ci.com/jmyrberg/aakr.svg?branch=master)](https://travis-ci.com/jmyrberg/aakr) [![Documentation Status](https://readthedocs.org/projects/aakr/badge/?version=latest)](https://aakr.readthedocs.io/en/latest/?badge=latest)
 
-Python implementation of the Auto-Associative Kernel Regression (AAKR). The algorithm is suitable for signal reconstruction, which further be used for e.g. condition monitoring or anomaly detection.
+![aakr cover](https://github.com/jmyrberg/aakr/blob/master/docs/cover.jpg?raw=true)
+
+
+**aakr** is a Python implementation of the Auto-Associative Kernel Regression (AAKR). The algorithm is suitable for signal reconstruction, which can further be used for condition monitoring, anomaly detection etc.
+
+Documentation is available at https://aakr.readthedocs.io.
 
 
 ## Installation
@@ -10,21 +15,21 @@ Python implementation of the Auto-Associative Kernel Regression (AAKR). The algo
 `pip install aakr`
 
 
-## Example usage
+## Quickstart
 
-Give examples of normal conditions as pandas DataFrame or numpy array.
+Given historical normal condition `X_nc` examples and new observations `X_obs` of size `n_samples x n_features`, what values we expect to see in normal conditions for the new observations? 
 
 ```python
 from aakr import AAKR
 
+# Create AAKR model
 aakr = AAKR()
-aakr.fit(X_obs_nc)
-```
 
-Predict normal condition for given observations.
+# Fit the model with normal condition examples
+aakr.fit(X_nc)
 
-```python
-X_nc = aakr.predict(X_obs)
+# Ask for values expected to be seen in normal conditions
+X_obs_nc = aakr.transform(X_obs)
 ```
 
 

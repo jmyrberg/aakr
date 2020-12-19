@@ -19,12 +19,12 @@ def test_aakr(data):
     aakr = AAKR()
     assert aakr.metric == 'euclidean'
     assert aakr.bw == 1
-    assert aakr.n_jobs is None
+    assert aakr.n_jobs == -1
 
     aakr.fit(X)
     assert hasattr(aakr, 'X_')
 
-    X_nc = aakr.predict(X[:3])
+    X_nc = aakr.transform(X[:3])
     assert_allclose(X_nc, X[:3])
 
 
@@ -34,4 +34,7 @@ def test_aakr_input_shape_mismatch(data):
     assert aakr.X_.shape[1] == X.shape[1]
 
     with pytest.raises(ValueError, match='Shape of input is different'):
-        aakr.predict(X[:3, :-1])
+        aakr.transform(X[:3, :-1])
+
+
+# TODO: Test partial_fit
