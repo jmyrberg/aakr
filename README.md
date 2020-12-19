@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/jmyrberg/aakr.svg?branch=master)](https://travis-ci.com/jmyrberg/aakr) [![Documentation Status](https://readthedocs.org/projects/aakr/badge/?version=latest)](https://aakr.readthedocs.io/en/latest/?badge=latest)
 
-![aakr cover](https://github.com/jmyrberg/aakr/blob/master/docs/cover.jpg?raw=true)
+![aakr cover](https://github.com/jmyrberg/aakr/blob/master/docs/cover.png?raw=true)
 
 
 **aakr** is a Python implementation of the Auto-Associative Kernel Regression (AAKR). The algorithm is suitable for signal reconstruction, which can further be used for condition monitoring, anomaly detection etc.
