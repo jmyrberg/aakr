@@ -18,7 +18,7 @@ setuptools.setup(
     author_email='jesse.myrberg@gmail.com',
     url='https://github.com/jmyrberg/aakr',
     keywords=['aakr', 'auto', 'associative', 'kernel', 'regression', 'anomaly',
-              'detection'],
+              'detection', 'signal', 'reconstruction'],
     install_requires=[
         'numpy>=1.19.4',
         'pandas>=1.1.5',
@@ -27,7 +27,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Science/Research',
@@ -43,7 +43,8 @@ setuptools.setup(
     extras_require={
         'tests': [
             'pytest',
-            'pytest-cov'],
+            'pytest-cov'
+        ],
         'docs': [
             'sphinx',
             'sphinx_rtd_theme',
