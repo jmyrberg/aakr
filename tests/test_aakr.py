@@ -4,7 +4,11 @@
 import pytest
 
 from sklearn.datasets import load_linnerud
-from sklearn.utils.testing import assert_allclose
+
+try:  # scikit-learn < 0.24.0
+    from sklearn.utils.testing import assert_allclose
+except ModuleNotFoundError:  # scikit-learn >= 0.24.0
+    from sklearn.utils._testing import assert_allclose
 
 from aakr import AAKR
 
