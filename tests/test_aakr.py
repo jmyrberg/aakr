@@ -35,7 +35,6 @@ def test_euclidean_aakr(data):
     assert hasattr(aakr, "X_")
 
     X_nc = aakr.transform(X[:3])
-    X_nc.tofile("test.txt", sep=",")
     assert_allclose(X_nc, X[:3])
 
 
