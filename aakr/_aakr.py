@@ -70,10 +70,23 @@ class AAKR(TransformerMixin, BaseEstimator):
 
     def _rbf_kernel(self, X_obs_nc, X_obs):
         # Kernel regression
-        D = pairwise_distances(X=X_obs_nc, Y=X_obs,
-                               metric=self.metric, n_jobs=self.n_jobs)
-        k = 1 / np.sqrt(2 * np.pi * self.bw ** 2)
-        w = k * np.exp(-D ** 2 / (2 * self.bw ** 2))
+        if self.metric == "mahalanobis":
+            D = pairwise_distances(
+                X=X_obs_nc,
+                Y=X_obs,
+                metric=self.metric,
+                n_jobs=self.n_jobs,
+                VI=np.linalg.inv(np.cov(X_obs_nc.T)).T,
+            )
+        else:
+            D = pairwise_distances(
+                X=X_obs_nc,
+                Y=X_obs,
+                metric=self.metric,
+                n_jobs=self.n_jobs,
+            )
+        k = 1 / np.sqrt(2 * np.pi * self.bw**2)
+        w = k * np.exp(-(D**2) / (2 * self.bw**2))
 
         return w
 
