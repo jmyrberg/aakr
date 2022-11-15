@@ -45,8 +45,10 @@ class AAKR(TransformerMixin, BaseEstimator):
            signal reconstruction in nuclear power plant components", European
            Safety and Reliability Conference ESREL.
     """
-    def __init__(self, metric='euclidean', bw=1., modified=False, penalty=None,
-                 n_jobs=-1):
+
+    def __init__(
+        self, metric="euclidean", bw=1.0, modified=False, penalty=None, n_jobs=-1
+    ):
         self.metric = metric
         self.bw = bw
         self.modified = modified
@@ -60,20 +62,37 @@ class AAKR(TransformerMixin, BaseEstimator):
             if self.penalty is not None:
                 penalty = check_array(self.penalty, ensure_2d=False)
                 if len(penalty) != X.shape[1]:
-                    raise ValueError('Shape of input is different from what '
-                                     'is defined in penalty vector ('
-                                     f'{X.shape[1]} != {len(penalty)})')
+                    raise ValueError(
+                        "Shape of input is different from what "
+                        "is defined in penalty vector ("
+                        f"{X.shape[1]} != {len(penalty)})"
+                    )
         elif not self.modified and self.penalty is not None:
-            raise ValueError('Parameter `penalty` given, but `modified=False`.'
-                             'Please set `modified=True` to make use of the '
-                             'penalty vector, or set `penalty=None`.')
+            raise ValueError(
+                "Parameter `penalty` given, but `modified=False`."
+                "Please set `modified=True` to make use of the "
+                "penalty vector, or set `penalty=None`."
+            )
 
     def _rbf_kernel(self, X_obs_nc, X_obs):
         # Kernel regression
-        D = pairwise_distances(X=X_obs_nc, Y=X_obs,
-                               metric=self.metric, n_jobs=self.n_jobs)
-        k = 1 / np.sqrt(2 * np.pi * self.bw ** 2)
-        w = k * np.exp(-D ** 2 / (2 * self.bw ** 2))
+        if self.metric == "mahalanobis":
+            D = pairwise_distances(
+                X=X_obs_nc,
+                Y=X_obs,
+                metric=self.metric,
+                n_jobs=self.n_jobs,
+                VI=np.linalg.inv(np.cov(X_obs_nc.T)).T,
+            )
+        else:
+            D = pairwise_distances(
+                X=X_obs_nc,
+                Y=X_obs,
+                metric=self.metric,
+                n_jobs=self.n_jobs,
+            )
+        k = 1 / np.sqrt(2 * np.pi * self.bw**2)
+        w = k * np.exp(-(D**2) / (2 * self.bw**2))
 
         return w
 
@@ -120,10 +139,12 @@ class AAKR(TransformerMixin, BaseEstimator):
         self._fit_validation(X)
 
         # Fit
-        if hasattr(self, 'X_'):
+        if hasattr(self, "X_"):
             if self.X_.shape[1] != X.shape[1]:
-                raise ValueError('Shape of input is different from what was '
-                                 'seen in `fit` or `partial_fit`')
+                raise ValueError(
+                    "Shape of input is different from what was "
+                    "seen in `fit` or `partial_fit`"
+                )
             self.X_ = np.vstack((self.X_, X))
         else:
             self.X_ = X
@@ -144,13 +165,14 @@ class AAKR(TransformerMixin, BaseEstimator):
             Expected values in normal conditions for each sample and feature.
         """
         # Validation
-        check_is_fitted(self, 'X_')
+        check_is_fitted(self, "X_")
 
         X = check_array(X)
 
         if X.shape[1] != self.X_.shape[1]:
-            raise ValueError('Shape of input is different from what was seen'
-                             'in `fit`')
+            raise ValueError(
+                "Shape of input is different from what was seen" "in `fit`"
+            )
 
         # Modified AAKR basically sorts the columns
         # TODO: Needs to be verified that everything here is correct
@@ -160,10 +182,10 @@ class AAKR(TransformerMixin, BaseEstimator):
 
             # Penalty matrix (J x J, where J is the number of features)
             if self.penalty is None:
-                D = np.diag(np.arange(X.shape[1]) + 1) ** 2.
+                D = np.diag(np.arange(X.shape[1]) + 1) ** 2.0
                 D /= D.sum()
             else:
-                D = np.diag(self.penalty).astype('float')
+                D = np.diag(self.penalty).astype("float")
 
             for i, X_obs in enumerate(X):  # TODO: Vectorize
                 # Standardized contributions in decreasing order (J, 1)
